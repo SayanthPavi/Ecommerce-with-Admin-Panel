@@ -19,8 +19,8 @@ import UnauthPage from "./pages/unauth-page";
 function App() {
   const isAuthenticated = true;
   const user = {
-    name: "guest",
-    role: "user",
+    name: "false",
+    role: "null",
   };
 
   return (
