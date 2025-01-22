@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookiesParser = require("cookie-parser");
 const cors = require("cors");
+const authRouter = require("./routes/auth/auth-routes");
 
 // create a database connection -> you can also
 // create a seperate file for this and then import/use file that file
@@ -31,5 +32,6 @@ app.use(
 
 app.use(cookiesParser());
 app.use(express.json());
+app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
