@@ -3,6 +3,18 @@ import { Navigate, useLocation } from "react-router-dom";
 const CheckAuth = ({ isAuthenticated, user, children }) => {
   const location = useLocation();
 
+  if (location.pathname === "/") {
+    if (!isAuthenticated) {
+      return <Navigate to="/auth/login" />;
+    } else {
+      if (user?.role === "admin") {
+        return <Navigate to="/admin/dashboard" />;
+      } else {
+        return <Navigate to="/shop/home" />;
+      }
+    }
+  }
+
   // Redirect unauthenticated users to login if not on login/register pages
   if (
     !isAuthenticated &&
@@ -22,9 +34,10 @@ const CheckAuth = ({ isAuthenticated, user, children }) => {
     if (user?.role === "admin") {
       return <Navigate to="/admin/dashboard" />;
     } else {
-      <Navigate to="/shop/home" />;
+      return <Navigate to="/shop/home" />;
     }
   }
+
   // Restrict access to admin routes for non-admin users
   if (
     isAuthenticated &&

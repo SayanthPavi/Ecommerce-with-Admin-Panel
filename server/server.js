@@ -1,14 +1,17 @@
 const express = require("express");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cookiesParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth/auth-routes");
 
+dotenv.config();
+
 // create a database connection -> you can also
 // create a seperate file for this and then import/use file that file
 
 mongoose
-  .connect("mongodb+srv://sayanth:Qazxswedc2022@cluster0.0zlhi.mongodb.net/")
+  .connect(process.env.CONNECTION_STRING)
   .then(() => console.log("mongoDB is connected"))
   .catch((error) => console.log(error));
 
@@ -17,7 +20,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: " http://localhost:5173/",
+    origin: " http://localhost:5173",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
