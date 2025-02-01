@@ -3,10 +3,10 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import {
   Select,
-  SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectContent,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 
@@ -57,7 +57,7 @@ const CommonForm = ({
               {getControlItem.options && getControlItem.options.length > 0
                 ? getControlItem.options.map((optionItem) => (
                     <SelectItem key={optionItem.id} value={optionItem.id}>
-                      {optionItem.Label}
+                      {optionItem.label}
                     </SelectItem>
                   ))
                 : null}
