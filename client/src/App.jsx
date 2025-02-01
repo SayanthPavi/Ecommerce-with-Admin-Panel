@@ -4,7 +4,7 @@ import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
 import AdminLayout from "./components/admin-view/layout";
 import AdminDashboard from "./pages/admin-view/dashboard";
-import AdminOders from "./pages/admin-view/oders";
+import AdminOrders from "./pages/admin-view/orders";
 import AdminFeatures from "./pages/admin-view/features";
 import AdminProducts from "./pages/admin-view/products";
 import ShoppingLayout from "./components/shopping-view/layout";
@@ -56,7 +56,7 @@ function App() {
         >
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
-          <Route path="oders" element={<AdminOders />} />
+          <Route path="oders" element={<AdminOrders />} />
           <Route path="features" element={<AdminFeatures />} />
         </Route>
         <Route

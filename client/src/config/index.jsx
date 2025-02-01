@@ -1,3 +1,5 @@
+import { LayoutDashboard, ListOrdered, ShoppingBasket } from "lucide-react";
+
 export const registerFormControl = [
   {
     name: "userName",
@@ -36,5 +38,31 @@ export const loginFormControl = [
     placeholder: "Enter your password",
     componentType: "input",
     type: "password",
+  },
+];
+
+export const AdminSidebarMenuItems = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    path: "/admin/dashboard",
+    icon: <LayoutDashboard />,
+  },
+  {
+    id: "products",
+    label: "Products",
+    path: "/admin/products",
+    icon: <ShoppingBasket />,
+  },
+  {
+    id: "oders",
+    label: "Orders",
+    path: "/admin/oders",
+    icon: <ListOrdered />,
+  },
+  {
+    id: "features",
+    label: "Features",
+    path: "/admin/features",
   },
 ];
