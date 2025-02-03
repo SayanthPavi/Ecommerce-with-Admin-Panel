@@ -4,6 +4,7 @@ import { Label } from "../ui/label";
 import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
 
 const ProductImageUpload = ({
   imageFile,
@@ -11,6 +12,8 @@ const ProductImageUpload = ({
   uploadedImageUrl,
   setUploadedImageUrl,
   setImageLoadingState,
+  imageLoadingState,
+  isEditMode,
 }) => {
   const inputRef = useRef(null);
   const handleImageFileChange = (event) => {
@@ -24,8 +27,8 @@ const ProductImageUpload = ({
 
   const handleDrop = (event) => {
     event.preventDefault();
-    const dropedFile = event.dataTransfer.files?.[0];
-    if (dropedFile) setImageFile(dropedFile);
+    const droppedFile = event.dataTransfer.files?.[0];
+    if (droppedFile) setImageFile(droppedFile);
   };
 
   const handleRemoveImage = () => {
@@ -38,7 +41,7 @@ const ProductImageUpload = ({
   const uploadImageToCloudinary = async () => {
     setImageLoadingState(true);
     const data = new FormData();
-    data.append("my-file", imageFile);
+    data.append("my_file", imageFile);
     const response = await axios.post(
       "http://localhost:5000/api/admin/products/upload-image",
       data
@@ -59,7 +62,9 @@ const ProductImageUpload = ({
       <div
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="border-2 border-dashed rounded-lg p-4"
+        className={`border-2 border-dashed rounded-lg p-4 ${
+          isEditMode ? "cursor-not-allowed border-gray-400 bg-gray-100" : ""
+        }`}
       >
         <Input
           id="image-upload"
@@ -67,15 +72,28 @@ const ProductImageUpload = ({
           className="hidden"
           ref={inputRef}
           onChange={handleImageFileChange}
+          disabled={isEditMode}
         />
         {!imageFile ? (
           <Label
             htmlFor="image-upload"
-            className="flex flex-col items-center justify-center h-32 cursor-pointer"
+            className={`flex flex-col items-center justify-center h-32 ${
+              isEditMode ? "cursor-not-allowed text-gray-500" : "cursor-pointer"
+            }`}
           >
-            <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
-            <span>Drag & Drop or Click to Upload Image</span>
+            <UploadCloudIcon
+              className={`w-10 h-10 ${
+                isEditMode ? "text-gray-400" : "text-muted-foreground"
+              } mb-2`}
+            />
+            <span>
+              {isEditMode
+                ? "Image upload is disabled while editing"
+                : "Drag & Drop or Click to Upload Image"}
+            </span>
           </Label>
+        ) : imageLoadingState ? (
+          <Skeleton className="h-10 rounded-xl" />
         ) : (
           <div className="flex items-center justify-between">
             <div className="flex items-center">
