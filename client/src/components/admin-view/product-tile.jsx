@@ -26,10 +26,10 @@ const AdminProductTile = ({
                 product?.salePrice > 0 ? "line-through" : ""
               } text-lg font-semibold text-primary`}
             >
-              ${product?.price}
+              Rs.{product?.price}
             </span>
             {product?.salePrice > 0 ? (
-              <span className="text-lg font-bold">${product?.salePrice}</span>
+              <span className="text-lg font-bold">Rs.{product?.salePrice}</span>
             ) : null}
           </div>
         </CardContent>

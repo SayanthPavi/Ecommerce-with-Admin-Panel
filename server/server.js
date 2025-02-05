@@ -5,6 +5,7 @@ const cookiesParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
+const shopProductsRouter = require("./routes/shop/products-routes");
 
 dotenv.config();
 
@@ -38,5 +39,6 @@ app.use(cookiesParser());
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
+app.use("/api/shop/products", shopProductsRouter);
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
