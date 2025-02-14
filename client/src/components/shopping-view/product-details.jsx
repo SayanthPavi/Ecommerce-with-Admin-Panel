@@ -7,10 +7,10 @@ import { Input } from "../ui/input";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
+import { setProductDetails } from "@/store/shop/product-slice";
 
 const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
-
-  const dispatch =useDispatch()
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { toast } = useToast();
 
@@ -31,8 +31,13 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
       }
     });
   };
+  const handleDialogClose = () => {
+    setOpen(false);
+    dispatch(setProductDetails());
+  };
+
   return (
-    <Dialog open={open} onOpenChange={(open, setOpen)}>
+    <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
           <img
