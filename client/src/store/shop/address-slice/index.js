@@ -32,7 +32,7 @@ export const editaAddress = createAsyncThunk(
   "addresses/editaAddress",
   async ({ userId, addressId, formData }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/shop/address/update/${userId}//${addressId}`,
+      `http://localhost:5000/api/shop/address/update/${userId}/${addressId}`,
       formData
     );
     return response.data;
@@ -43,7 +43,7 @@ export const deleteAddress = createAsyncThunk(
   "addresses/deleteAddress",
   async ({ userId, addressId }) => {
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/address/delete/${userId}//${addressId}`
+      `http://localhost:5000/api/shop/address/delete/${userId}/${addressId}`
     );
     return response.data;
   }
@@ -58,13 +58,13 @@ const addressSlice = createSlice({
       .addCase(addNewAddress.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(addNewAddress.fulfilled, (state, action) => {
+      .addCase(addNewAddress.fulfilled, (state) => {
         state.isLoading = false;
-        state.addressList = action.payload.data;
+        // state.addressList = action.payload.data;
       })
       .addCase(addNewAddress.rejected, (state) => {
         state.isLoading = false;
-        state.addressList = [];
+        // state.addressList = [];
       })
       .addCase(fetchAllAddresses.pending, (state) => {
         state.isLoading = true;
