@@ -55,9 +55,9 @@ export const AdminSidebarMenuItems = [
     icon: <ShoppingBasket />,
   },
   {
-    id: "oders",
+    id: "orders",
     label: "Orders",
-    path: "/admin/oders",
+    path: "/admin/orders",
     icon: <ListOrdered />,
   },
 ];
