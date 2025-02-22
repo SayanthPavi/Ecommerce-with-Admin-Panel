@@ -4,18 +4,40 @@ import { DialogContent } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllOrdersForAdmin,
+  getOrderDetailsForAdmin,
+  updateOrderStatus,
+} from "@/store/admin/order-slice";
+import { useToast } from "@/hooks/use-toast";
 
 const initialFormData = {
-  Status: "",
+  status: "",
 };
 
 const AdminOrderDetailsView = ({ orderDetails }) => {
   const [formData, setFormData] = useState(initialFormData);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
 
   const handleUpdateStatus = (event) => {
     event.preventDefault();
+    const { status } = formData;
+
+    dispatch(
+      updateOrderStatus({ id: orderDetails?._id, orderStatus: status })
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(getOrderDetailsForAdmin(orderDetails?._id));
+        dispatch(getAllOrdersForAdmin());
+        setFormData(initialFormData);
+        toast({
+          title: data?.payload?.message,
+        });
+      }
+    });
   };
 
   return (
@@ -49,10 +71,12 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
           <div className="flex mt-2 mb-2 items-center justify-between">
             <p className="font-medium">Order Status</p>
             <Label>
-              <Badge
+            <Badge
                 className={`py-1 px-3 ${
                   orderDetails?.orderStatus === "confirmed"
                     ? "bg-green-500"
+                    : orderDetails?.orderStatus === "Rejected"
+                    ? "bg-red-600"
                     : "bg-black"
                 }`}
               >
@@ -73,7 +97,7 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
                       className="flex items-center justify-between"
                     >
                       <span>Title: {item.title}</span>
-                      <span>Quntity: {item.quantity}</span>
+                      <span>Quantity: {item.quantity}</span>
                       <span>Price: ${item.price}</span>
                     </li>
                   ))
@@ -99,7 +123,7 @@ const AdminOrderDetailsView = ({ orderDetails }) => {
             formControls={[
               {
                 label: "Order Status",
-                name: "Status",
+                name: "status",
                 componentType: "select",
                 options: [
                   { id: "Pending", label: "Pending" },
