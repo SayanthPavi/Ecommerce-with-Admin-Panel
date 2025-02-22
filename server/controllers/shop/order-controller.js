@@ -90,6 +90,8 @@ const createOrder = async (req, res) => {
     });
   }
 };
+
+// capturePayment
 const capturePayment = async (req, res) => {
   try {
     const { paymentId, payerId, orderId } = req.body;
@@ -125,6 +127,9 @@ const capturePayment = async (req, res) => {
     });
   }
 };
+
+
+// getAllOrdersByUserId
 const getAllOrdersByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -149,6 +154,8 @@ const getAllOrdersByUserId = async (req, res) => {
     });
   }
 };
+
+// getOrderDetails
 const getOrderDetails = async (req, res) => {
   try {
     const { id } = req.params;
