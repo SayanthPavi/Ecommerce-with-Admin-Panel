@@ -26,6 +26,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import { getFeatureImage } from "@/store/common/feature-slice";
 
 const categoryWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -52,6 +53,7 @@ const ShoppingHome = () => {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
+  const { featureImageList } = useSelector((state) => state.commonFeature);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
@@ -111,19 +113,25 @@ const ShoppingHome = () => {
 
   console.log("ProductList", productList);
 
+  useEffect(() => {
+    dispatch(getFeatureImage());
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          {slides.map((slide, index) => (
-            <img
-              src={slide}
-              key={index}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+          {featureImageList && featureImageList.length > 0
+            ? featureImageList.map((slide, index) => (
+                <img
+                  src={slide?.image}
+                  key={index}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                    index === currentSlide ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ))
+            : null}
         </div>
         <Button
           variant="outline"
@@ -199,8 +207,9 @@ const ShoppingHome = () => {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {productList && productList.length > 0
-              ? productList.map((productItem) => (
+              ? productList.map((productItem, index) => (
                   <ShoppingProductTile
+                    key={index}
                     handleGetProductDetails={handleGetProductDetails}
                     product={productItem}
                     handleAddToCart={handleAddToCart}
